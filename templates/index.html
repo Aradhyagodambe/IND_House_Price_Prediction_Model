@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro House Price Predictor</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #00FF00;
+            font-family: "Courier New", Courier, monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 4px double #00FF00;
+            padding: 30px;
+            box-shadow: 0 0 15px #00FF00;
+        }
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: 2px dashed #00FF00;
+            padding-bottom: 10px;
+            text-shadow: 2px 2px #008000;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="number"], input[type="text"] {
+            background-color: #000000;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            padding: 8px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        input:focus {
+            outline: none;
+            background-color: #003300;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        button {
+            background-color: #00FF00;
+            color: #000000;
+            border: 2px solid #FFFFFF;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            font-family: "Courier New", Courier, monospace;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px dashed #00FF00;
+            text-align: center;
+            font-size: 1.5em;
+            background-color: #001100;
+        }
+        blink {
+            animation: blinker 1s linear infinite;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1><blink>></blink> House_Price_Predictor.exe</h1>
+    <p>> INIT SYSTEM... OK</p>
+    <p>> LOAD MODEL: LinearRegression_v1.6.1... OK</p>
+    <p>> ENTER PARAMETERS:</p>
+    
+    <form action="/predict" method="post">
+        <!-- 17 Features required by the scikit-learn model -->
+        <div class="form-group"><label>Number of Bedrooms</label><input type="number" step="any" name="bedrooms" required></div>
+        <div class="form-group"><label>Number of Bathrooms</label><input type="number" step="any" name="bathrooms" required></div>
+        <div class="form-group"><label>Living Area (sq ft)</label><input type="number" step="any" name="living_area" required></div>
+        <div class="form-group"><label>Lot Area (sq ft)</label><input type="number" step="any" name="lot_area" required></div>
+        <div class="form-group"><label>Number of Floors</label><input type="number" step="any" name="floors" required></div>
+        <div class="form-group"><label>Waterfront Present (0/1)</label><input type="number" step="any" name="waterfront" required></div>
+        <div class="form-group"><label>Number of Views</label><input type="number" step="any" name="views" required></div>
+        <div class="form-group"><label>Condition of House</label><input type="number" step="any" name="condition" required></div>
+        <div class="form-group"><label>Grade of House</label><input type="number" step="any" name="grade" required></div>
+        <div class="form-group"><label>Area (Excluding Basement)</label><input type="number" step="any" name="area_excluding_basement" required></div>
+        <div class="form-group"><label>Area of Basement</label><input type="number" step="any" name="area_basement" required></div>
+        <div class="form-group"><label>Built Year</label><input type="number" step="any" name="built_year" required></div>
+        <div class="form-group"><label>Renovation Year</label><input type="number" step="any" name="renovation_year" required></div>
+        <div class="form-group"><label>Postal Code</label><input type="number" step="any" name="postal_code" required></div>
+        <div class="form-group"><label>Lot Area Renovated</label><input type="number" step="any" name="lot_area_renov" required></div>
+        <div class="form-group"><label>Number of Schools Nearby</label><input type="number" step="any" name="schools_nearby" required></div>
+        <div class="form-group"><label>Distance from Airport (Miles)</label><input type="number" step="any" name="distance_airport" required></div>
+        
+        <div class="form-group full-width">
+            <button type="submit">EXECUTE PREDICTION >></button>
+        </div>
+    </form>
+
+    {% if prediction_text %}
+    <div class="result">
+        > ESTIMATED VALUE: <br>
+        <strong>{{ prediction_text }}</strong>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
