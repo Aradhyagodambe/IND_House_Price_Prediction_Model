@@ -97,13 +97,13 @@ input:focus-visible,select:focus-visible{outline:none;border-color:var(--brass-d
     <div class="result" id="result" aria-live="polite">
       <div class="cap">Estimated market value</div>
       {% if prediction is defined and prediction is not none %}
-        <div class="price" id="price" data-value="{{ prediction }}">$ {{ '{:,.0f}'.format(prediction) }}</div>
+        <div class="price" id="price" data-value="{{ prediction }}">₹ {{ '{:,.0f}'.format(prediction) }}</div>
         <p class="note">Based on the 17 property details you entered. Treat this as a guide, not a formal appraisal.</p>
       {% elif error %}
-        <div class="price empty">$ –</div>
+        <div class="price empty">₹ –</div>
         <div class="error" role="alert">{{ error }}</div>
       {% else %}
-        <div class="price empty">$ –</div>
+        <div class="price empty">₹ –</div>
         <p class="note">Complete all fields, then select “Get estimate”.</p>
       {% endif %}
     </div>
