@@ -182,7 +182,7 @@ input:focus-visible,select:focus-visible{outline:none;border-color:var(--brass-d
     function tick(t) {
       if (start === null) start = t;
       var p = Math.min((t - start) / dur, 1), e = 1 - Math.pow(1 - p, 3);
-      el.textContent = '$ ' + Math.round(target * e).toLocaleString('en-US');
+      el.textContent = '₹ ' + Math.round(target * e).toLocaleString('en-US');
       if (p < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
