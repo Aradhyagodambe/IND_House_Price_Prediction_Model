@@ -85,6 +85,23 @@ input:focus-visible,select:focus-visible{outline:none;border-color:var(--brass-d
 </div>
 {% endmacro %}
 
+{# Indian digit grouping, e.g. 23405306 -> 2,34,05,306 #}
+{% macro inr(n) -%}
+{%- set v = n|round|int -%}
+{%- set s = '%d' % (v|abs) -%}
+{%- if v < 0 %}-{% endif -%}
+{%- if s|length <= 3 -%}
+{{ s }}
+{%- else -%}
+{%- set ns = namespace(out='') -%}
+{%- for ch in s[:-3]|reverse -%}
+{%- if loop.index0 > 0 and loop.index0 % 2 == 0 %}{% set ns.out = ',' ~ ns.out %}{% endif -%}
+{%- set ns.out = ch ~ ns.out -%}
+{%- endfor -%}
+{{ ns.out }},{{ s[-3:] }}
+{%- endif -%}
+{%- endmacro %}
+
 <div class="app">
   <aside class="panel">
     <div class="brand">
@@ -97,7 +114,7 @@ input:focus-visible,select:focus-visible{outline:none;border-color:var(--brass-d
     <div class="result" id="result" aria-live="polite">
       <div class="cap">Estimated market value</div>
       {% if prediction is defined and prediction is not none %}
-        <div class="price" id="price" data-value="{{ prediction }}">₹ {{ '{:,.0f}'.format(prediction) }}</div>
+        <div class="price" id="price" data-value="{{ prediction }}">₹ {{ inr(prediction) }}</div>
         <p class="note">Based on the 17 property details you entered. Treat this as a guide, not a formal appraisal.</p>
       {% elif error %}
         <div class="price empty">₹ –</div>
@@ -182,7 +199,7 @@ input:focus-visible,select:focus-visible{outline:none;border-color:var(--brass-d
     function tick(t) {
       if (start === null) start = t;
       var p = Math.min((t - start) / dur, 1), e = 1 - Math.pow(1 - p, 3);
-      el.textContent = '₹ ' + Math.round(target * e).toLocaleString('en-US');
+      el.textContent = '₹ ' + Math.round(target * e).toLocaleString('en-IN');
       if (p < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
